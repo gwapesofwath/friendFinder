@@ -38,7 +38,30 @@ module.exports = function (app) {
             for (var j = 0; j < newUserInput.scores.length; j++) {
                 scoreDiff += Math.abs(newUserInput.scores[j] - userArray[i].scores[j]);
                 console.log('scoreDifference = ' + scoreDiff + "  j = " + j);
-            
-            }}
-    })
-};
+            }
+            // summ of differences for each friend and new User store in the array
+            scoreDiffArray.push(scoreDiff);
+            console.log('scoreDiffArray for each object in the friends array = ' + scoreDiffArray + " i = " + i);
+        }
+        console.log('scoreDiffArray TOTAL = ' + scoreDiffArray);
+
+        // Determine the best match using the postion of the best match in the friends array
+        var bestMatchPosition = 0;
+        for (var i = 1; i < scoreDiffArray.length; i++) {
+
+            if (scoreDiffArray[i] <= scoreDiffArray[bestMatchPosition]) {
+                bestMatchPosition = i;
+
+            }
+
+        }
+        //return best Match data
+        var bestFriendMatch = userArray[bestMatchPosition];
+        res.json(bestFriendMatch);
+
+        //pushes the new userInput into the friends array
+        userArray.push(newUserInput);
+
+    });
+
+}
